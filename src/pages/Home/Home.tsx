@@ -32,14 +32,14 @@ function Home() {
 
   return (
     <div>
-      <h1 className="text-2xl  mb-4 text-blue-500">Truyện sắp ra </h1>
+      <h1 className="text-2xl  mb-4 text-blue-500">Truyện sắp ra &gt;</h1>
       <div className="mt-2">
         <ComicUC />
       </div>
       <div className="mt-2 flex flex-row gap-2">
         <div className=" flex-1">
           <h1 className="text-2xl  mb-4 text-blue-500">
-            VuiTruyen truyện gì cũng có &gt;
+            VuiTruyen truyện gì cũng có
           </h1>
           <div className="grid grid-cols-4 gap-4 mt-4">
             {isLoading
@@ -53,6 +53,7 @@ function Home() {
                   <ListComics
                     key={index}
                     thumbnail={truyen.thumb_url}
+                    slug={truyen.slug}
                     name={truyen.name}
                     chapter_name={truyen.chapter_name}
                   />

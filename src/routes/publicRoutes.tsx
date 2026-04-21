@@ -1,5 +1,7 @@
 import Category from "../pages/Category";
+import Chaper from "../pages/Chapter/Chapter";
 import Completed from "../pages/Completed";
+import DetailComic from "../pages/DetailComic";
 import Followed from "../pages/Followed";
 import Home from "../pages/Home";
 const publicRoutes = [
@@ -7,6 +9,8 @@ const publicRoutes = [
   { path: "followed", element: <Followed /> },
   { path: "completed", element: <Completed /> },
   { path: "category/:maTheLoai", element: <Category /> },
+  { path: "detail/:matruyen", element: <DetailComic /> },
+  { path: "chapter", element: <Chaper /> },
 ];
 
 export default publicRoutes;
