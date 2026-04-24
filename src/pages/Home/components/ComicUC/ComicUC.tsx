@@ -68,7 +68,7 @@ function ComicUC() {
       >
         {comicUCs.map((comic) => (
           <SwiperSlide key={comic._id} className="my-6">
-            <div className=" select-none">
+            <div className=" select-none hover:cursor-pointer transition-all duration-300 ease-in top-0 hover:-top-4 relative">
               <img
                 src={`https://img.otruyenapi.com/uploads/comics/${comic.thumb_url}`}
                 alt={comic.name}

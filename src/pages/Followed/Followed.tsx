@@ -7,7 +7,7 @@ function Followed() {
   });
   return (
     <>
-      <h1 className="text-2xl font-bold mb-4 text-blue-500">
+      <h1 className="md:text-2xl md:font-bold md:mb-4 md:text-blue-500">
         Truyện đã theo dõi
       </h1>
       {followed.length === 0 ? (
@@ -18,7 +18,7 @@ function Followed() {
             <li key={truyen.id} className="mb-2">
               <a
                 href={`/truyen/${truyen.id}`}
-                className="text-blue-500 hover:underline"
+                className="md:text-blue-500 md:hover:underline"
               >
                 {truyen.title}
               </a>

@@ -10,7 +10,7 @@ const publicRoutes = [
   { path: "completed", element: <Completed /> },
   { path: "category/:maTheLoai", element: <Category /> },
   { path: "detail/:matruyen", element: <DetailComic /> },
-  { path: "chapter", element: <Chaper /> },
+  { path: "chapter/:matruyen", element: <Chaper /> },
 ];
 
 export default publicRoutes;

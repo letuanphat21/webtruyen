@@ -34,10 +34,10 @@ function Pagination({
   }
   return (
     <nav aria-label="">
-      <ul className="flex flex-row gap-2 justify-center items-center hover:cursor-pointer ">
+      <ul className="flex flex-row md:gap-2 gap-1 justify-center items-center  md:hover:cursor-pointer ">
         <li
           onClick={() => setTrangHienTai(1)}
-          className="px-4 py-2 border-2 border-gray-300 rounded-md hover:text-white hover:bg-blue-400 trasition-colors duration-300"
+          className="px-2 md:px-4 py-2 border-2 border-gray-300 rounded-md active:text-white active:bg-blue-400 md:hover:text-white md:hover:bg-blue-400 md:trasition-colors md:duration-300"
         >
           <p className="">FirstPage</p>
         </li>
@@ -47,7 +47,7 @@ function Pagination({
               key={index}
               onClick={() => setTrangHienTai(trang)}
               className={` ${trang === trangHienTai ? "bg-blue-400 text-white border-gray-500" : ""}
-                px-4 py-2 border-2 border-gray-300  rounded-md hover:text-white hover:bg-blue-400 trasition-colors duration-300`}
+                px-3 md:px-4 py-2 border-2 border-gray-300  rounded-md md:hover:text-white active:text-white md:hover:bg-blue-400 active:bg-blue-400 trasition-colors duration-300`}
             >
               <p className="">{trang}</p>
             </li>
@@ -55,7 +55,7 @@ function Pagination({
         })}
         <li
           onClick={() => setTrangHienTai(tongSoTrang)}
-          className="px-4 py-2 border-2 border-gray-300 rounded-md hover:text-white hover:bg-blue-400 trasition-colors duration-300"
+          className="px-4 py-2 border-2 border-gray-300 rounded-md md:hover:text-white active:text-white md:hover:bg-blue-400 active:bg-blue-400 trasition-colors duration-300"
         >
           <p className="">LastPage</p>
         </li>

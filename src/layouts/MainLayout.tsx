@@ -5,9 +5,12 @@ function MainLayout() {
   return (
     <>
       <Header />
-      <SubHeader />
-      <div className="w-full bg-[#ebebeb]">
-        <div className="max-w-7xl mx-60 py-8 bg-white px-3">
+
+      <div className="hidden md:block">
+        <SubHeader />
+      </div>
+      <div className="md:w-full md:bg-[#ebebeb]">
+        <div className="md:max-w-7xl md:mx-60 md:py-8 md:bg-white md:px-3">
           <Outlet />
         </div>
       </div>

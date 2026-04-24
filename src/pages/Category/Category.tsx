@@ -1,24 +1,17 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import axiosClient from "../../services/axiosClient";
-import ListComics from "../../components/ListComics";
+import Comics from "../../components/Comics";
 import Pagination from "../../components/Pagination";
 import useCategories from "../../hooks/useCategories";
-
-interface listTruyen {
-  _id: string;
-  name: string;
-  slug: string;
-  thumb_url: string;
-  chapter_name: string;
-}
+import { ListTruyen } from "../../interface/ListTruyen";
 
 function Category() {
   const { maTheLoai } = useParams();
   const location = useLocation();
   const data = location.state;
-
-  const [listTruyens, setListTruyens] = useState<listTruyen[]>([]);
+  console.log(maTheLoai);
+  const [listTruyens, setListTruyens] = useState<ListTruyen[]>([]);
   const [trangHienTai, setTrangHienTai] = useState(1);
   const [tongSoTrang, setTongSoTrang] = useState(10);
   const [loading, setLoading] = useState(true);
@@ -27,29 +20,33 @@ function Category() {
 
   useEffect(() => {
     setLoading(true);
-
     axiosClient.get(`/the-loai/${maTheLoai}`).then((response) => {
-      let truyens = response.data.items.map((item: any) => ({
-        _id: item._id,
-        name: item.name,
-        slug: item.slug,
-        thumb_url: item.thumb_url,
-        chapter_name: item.chaptersLatest?.[0]?.chapter_name || "no chapter",
-      }));
-
+      let truyens = response.data.items
+        .filter((item: any) => item.chaptersLatest != null)
+        .map((item: any) => ({
+          _id: item._id,
+          name: item.name,
+          slug: item.slug,
+          thumb_url: item.thumb_url,
+          chapter_lates: item.chaptersLatest.map((chapterlates: any) => ({
+            chapter_name: chapterlates.chapter_name,
+            chapter_api_data: chapterlates.chapter_api_data,
+          })),
+        }));
+      console.log(truyens);
       setListTruyens(truyens);
       setLoading(false);
     });
   }, [maTheLoai]);
 
   return (
-    <div className="mt-2 flex flex-row gap-2">
+    <div className="mt-2 flex flex-col md:flex-row md:gap-2">
       <div className="flex-1">
         <h1 className="text-2xl mb-4 text-blue-500">
           Truyện Thể loại {data?.name || maTheLoai}
         </h1>
 
-        <div className="grid grid-cols-4 gap-4 mt-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
           {loading
             ? Array.from({ length: 10 }).map((_, i) => (
                 <div key={i} className="animate-pulse">
@@ -59,11 +56,13 @@ function Category() {
                 </div>
               ))
             : listTruyens.map((truyen) => (
-                <ListComics
+                <Comics
                   key={truyen._id}
                   thumbnail={truyen.thumb_url}
+                  slug={truyen.slug}
                   name={truyen.name}
-                  chapter_name={truyen.chapter_name}
+                  chapter_name={truyen.chapter_lates[0].chapter_name}
+                  api_truyen={truyen.chapter_lates[0].chapter_api_data}
                 />
               ))}
         </div>
@@ -76,9 +75,11 @@ function Category() {
           />
         </div>
       </div>
-      <div className="w-64">
-        <div className="border border-gray-300 rounded-lg">
-          <h1 className="text-2xl text-blue-500 p-2">Danh sách thể loại</h1>
+      <div className="md:w-64 hidden md:block">
+        <div className="md:border md:border-gray-300 md:rounded-lg">
+          <h1 className="md:text-2xl md:text-blue-500 md:p-2">
+            Danh sách thể loại
+          </h1>
 
           <div className="grid grid-cols-2 gap-2 p-4">
             {theloais.map((theloai) => (
@@ -86,7 +87,7 @@ function Category() {
                 key={theloai._id}
                 to={`/category/${theloai.slug}`}
                 state={{ name: theloai.name }}
-                className="hover:text-blue-400 hover:cursor-pointer"
+                className="md:hover:text-blue-400 md:hover:cursor-pointer"
               >
                 {theloai.name}
               </Link>
