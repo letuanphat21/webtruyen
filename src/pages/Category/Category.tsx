@@ -20,24 +20,26 @@ function Category() {
 
   useEffect(() => {
     setLoading(true);
-    axiosClient.get(`/the-loai/${maTheLoai}`).then((response) => {
-      let truyens = response.data.items
-        .filter((item: any) => item.chaptersLatest != null)
-        .map((item: any) => ({
-          _id: item._id,
-          name: item.name,
-          slug: item.slug,
-          thumb_url: item.thumb_url,
-          chapter_lates: item.chaptersLatest.map((chapterlates: any) => ({
-            chapter_name: chapterlates.chapter_name,
-            chapter_api_data: chapterlates.chapter_api_data,
-          })),
-        }));
-      console.log(truyens);
-      setListTruyens(truyens);
-      setLoading(false);
-    });
-  }, [maTheLoai]);
+    axiosClient
+      .get(`/the-loai/${maTheLoai}?page=${trangHienTai}`)
+      .then((response) => {
+        let truyens = response.data.items
+          .filter((item: any) => item.chaptersLatest != null)
+          .map((item: any) => ({
+            _id: item._id,
+            name: item.name,
+            slug: item.slug,
+            thumb_url: item.thumb_url,
+            chapter_lates: item.chaptersLatest.map((chapterlates: any) => ({
+              chapter_name: chapterlates.chapter_name,
+              chapter_api_data: chapterlates.chapter_api_data,
+            })),
+          }));
+        setTongSoTrang(response.data.params.pagination.totalItems);
+        setListTruyens(truyens);
+        setLoading(false);
+      });
+  }, [maTheLoai, trangHienTai]);
 
   return (
     <div className="mt-2 flex flex-col md:flex-row md:gap-2">
@@ -48,9 +50,9 @@ function Category() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
           {loading
-            ? Array.from({ length: 10 }).map((_, i) => (
+            ? Array.from({ length: 24 }).map((_, i) => (
                 <div key={i} className="animate-pulse">
-                  <div className="bg-gray-400 rounded-lg h-40 mb-2"></div>
+                  <div className="bg-gray-400 rounded-lg h-60 mb-2"></div>
                   <div className="bg-gray-400 h-4 w-3/4 mb-1"></div>
                   <div className="bg-gray-400 h-4 w-1/2"></div>
                 </div>

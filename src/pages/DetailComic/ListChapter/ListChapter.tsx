@@ -23,7 +23,7 @@ function ListChapter({ detailComic }: { detailComic: any }) {
         <ul className="flex flex-col border border-gray-200 rounded justify-center">
           {detailComic?.chapters
             .slice(0, chapterShort)
-            .map((chapter: any, index: number) => {
+            .map((chapter: any, index: number, chapters: any) => {
               return (
                 <li
                   key={index}
@@ -54,11 +54,11 @@ function ListChapter({ detailComic }: { detailComic: any }) {
               );
             })}
           {viewMore == false && (
-            <li className=" flex flex-row items-center justify-center py-2">
-              <div
-                onClick={handleViewMore}
-                className=" text-blue-400 hover:cursor-pointer hover:opacity-80 hover:shadow px-2  py-1  text-center w-fit bg-linear-to-tr from-gray-200 via-white to-gray-300 rounded"
-              >
+            <li
+              onClick={handleViewMore}
+              className="relative flex flex-row items-center justify-center py-2 hover:text-purple-400  hover:cursor-pointer before:absolute  before:border before:border-transparent before:w-full before:h-16 before:bg-transparent before:opacity-35 before:-top-5"
+            >
+              <div className=" text-blue-400 hover:cursor-pointer hover:opacity-80 hover:shadow px-2  py-1  text-center w-fit bg-linear-to-tr from-gray-200 via-white to-gray-300 rounded">
                 <span className="font-bold">+</span> Xem thêm
               </div>
             </li>

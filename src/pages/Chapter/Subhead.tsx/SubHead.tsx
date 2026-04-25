@@ -21,22 +21,56 @@ function SubHead({
 }) {
   const [chapter, setChapter] = useState(chapter_name);
   const [openModal, setOpenModal] = useState(false);
+  const currentIndex = chapter_apis.findIndex(
+    (chap: any) => chap.chapter_name === chapter_name,
+  );
+  const nextChapter = currentIndex > 0 ? chapter_apis[currentIndex - 1] : null;
 
+  const prevChapter =
+    currentIndex < chapter_apis.length - 1
+      ? chapter_apis[currentIndex + 1]
+      : null;
   return (
     <div className="sticky top-0 z-20 mt-5 flex flex-row items-center justify-center  bg-white rounded p-2 ">
       <ul className="flex flex-row gap-2 items-center ">
         <li className="hidden md:block">
-          <House className="text-red-500 font-bold" />
+          <Link to="/">
+            <House className="text-red-500 font-bold" />
+          </Link>
         </li>
         <li className="hidden md:block">
-          <List className="text-red-500 font-bold" />
+          <Link
+            to={`/detail/${detail_comic.slug}`}
+            state={{ comic_name: detail_comic.name }}
+          >
+            <List className="text-red-500 font-bold" />
+          </Link>
         </li>
         <li>
           <div className="flex flex-row gap-4 select-none ">
-            <ChevronLeft
-              size={40}
-              className="p-2 bg-red-600 text-white rounded-tl rounded-bl "
-            />
+            {prevChapter ? (
+              <Link
+                to={`/chapter/${detail_comic.slug}`}
+                state={{
+                  api_image: prevChapter.chapter_api_data,
+                  chapter_name: prevChapter.chapter_name,
+                  name_comic: detail_comic.name,
+                  chapters_apis: detail_comic.chapters,
+                  slug: detail_comic.slug,
+                  detailComic: detail_comic,
+                }}
+              >
+                <ChevronLeft
+                  size={40}
+                  className="p-2 bg-red-600 text-white rounded-tl rounded-bl"
+                />
+              </Link>
+            ) : (
+              <ChevronLeft
+                size={40}
+                className="p-2 bg-gray-300 text-white rounded-tl rounded-bl cursor-not-allowed"
+              />
+            )}
             <div
               onClick={() => setOpenModal(true)}
               className="relvative flex flex-row items-center justify-between border w-40 md:min-w-2xs"
@@ -95,10 +129,29 @@ function SubHead({
                 </div>
               )}
             </div>
-            <ChevronRight
-              size={40}
-              className="p-2  bg-red-600  text-white rounded-tr rounded-br"
-            />
+            {nextChapter ? (
+              <Link
+                to={`/chapter/${detail_comic.slug}`}
+                state={{
+                  api_image: nextChapter.chapter_api_data,
+                  chapter_name: nextChapter.chapter_name,
+                  name_comic: detail_comic.name,
+                  chapters_apis: detail_comic.chapters,
+                  slug: detail_comic.slug,
+                  detailComic: detail_comic,
+                }}
+              >
+                <ChevronRight
+                  size={40}
+                  className="p-2 bg-red-600 text-white rounded-tr rounded-br"
+                />
+              </Link>
+            ) : (
+              <ChevronRight
+                size={40}
+                className="p-2 bg-gray-300 text-white rounded-tr rounded-br cursor-not-allowed"
+              />
+            )}
           </div>
         </li>
         <li>

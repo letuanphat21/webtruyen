@@ -9,30 +9,40 @@ function Completed() {
   const [listTruyens, setListTruyens] = useState<ListTruyen[]>([]);
   const [trangHienTai, setTrangHienTai] = useState(1);
   const [tongSoTrang, setTongSoTrang] = useState(10);
-  const isLoading = !listTruyens || listTruyens.length === 0;
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    axiosClient.get("/danh-sach/hoan-thanh").then((response) => {
-      let truyens = response.data.items
-        .filter((item: any) => item.chaptersLatest != null)
-        .map((item: any) => ({
-          _id: item._id,
-          name: item.name,
-          slug: item.slug,
-          thumb_url: item.thumb_url,
-          chapter_lates: item.chaptersLatest.map((chapterlates: any) => ({
-            chapter_name: chapterlates.chapter_name,
-            chapter_api_data: chapterlates.chapter_api_data,
-          })),
-        }));
-      setListTruyens(truyens);
-    });
-  }, []);
+    setLoading(true);
+    axiosClient
+      .get(`/danh-sach/hoan-thanh?page=${trangHienTai}`)
+      .then((response) => {
+        let truyens = response.data.items
+          .filter((item: any) => item.chaptersLatest != null)
+          .map((item: any) => ({
+            _id: item._id,
+            name: item.name,
+            slug: item.slug,
+            thumb_url: item.thumb_url,
+            chapter_lates: item.chaptersLatest.map((chapterlates: any) => ({
+              chapter_name: chapterlates.chapter_name,
+              chapter_api_data: chapterlates.chapter_api_data,
+            })),
+          }));
+        setTongSoTrang(response.data.params.pagination.totalItems);
+        setListTruyens(truyens);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [trangHienTai]);
   return (
     <div className="mt-2 flex flex-col md:flex-row gap-2 px-2 md:px-0">
       <div className=" flex-1">
         <h1 className="text-2xl  mb-4 text-blue-500">Truyện đã hoàn thành</h1>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
-          {isLoading
+          {loading
             ? Array.from({ length: 10 }).map((_, i) => (
                 <div
                   key={i}
